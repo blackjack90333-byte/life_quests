@@ -6,136 +6,109 @@
     <title>Мои квесты</title>
     <style>
         .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
 
-.quest {
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    text-align: left;
-}
+        .quest {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: left;
+        }
 
-.quest-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 12px;
-    color: #333;
-}
+        .quest-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
 
-.quest-task {
-    font-size: 14px;
-    margin: 8px 0;
-    color: #666;
-    line-height: 1.4;
-}
+        .quest-task {
+            font-size: 14px;
+            margin: 8px 0;
+            color: #666;
+            line-height: 1.4;
+        }
 
-.copy-btn {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 25px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
-}
+        .copy-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
 
-.copy-btn:hover {
-    background: #45a049;
-}
+        .copy-btn:hover {
+            background: #45a049;
+        }
 
-.copy-btn.copied {
-    background: #2196F3;
-}
+        .copy-btn.copied {
+            background: #2196F3;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 18px;
+            padding: 40px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        
-
-        <div class="quest">
-    <div class="quest-title">Сайт на Тильде 💻</div>
-    <div class="quest-task">Подобрать идею для сайта, нужно выбирать среди высокомаржинальных (классика - строительство, ремонт, стоматология)</div>
-    <div class="quest-task">Найти конкурента с хорошим сайтом, дизайн которого можно повторить</div>
-    <div class="quest-task">Создать новую чистую страницу в tilda</div>
-    <div class="quest-task">Скачать все картинки сайта оригинала</div>
-    <div class="quest-task">Сделать первый экран, просто смело повторить</div>
-    <div class="quest-task">Если есть, возьми квиз и форму заявки</div>
-    <div class="quest-task">Сделать второй и другие экраны</div>
-    <div class="quest-task">Сделать подвал</div>
-    <div class="quest-task">Сделать все адаптивным</div>
-    <div class="quest-task">Юзать промпт от Сергея Нагорного</div>
-    <div class="quest-task">Переделать сайт под себя с похожим контентом</div>
-    <button class="copy-btn" onclick="copyQuest(this)">Копировать квест</button>
-</div>
-
-<div class="quest">
-    <div class="quest-title">Спортивное тело 🏋️</div>
-    <div class="quest-task">Включи фильм посмотреть или музыку</div>
-    <div class="quest-task">Для начала 2км на дорожке разогреться (24 минуты)</div>
-    <div class="quest-task">Табата приседания-отжимания 4 минуты</div>
-    <div class="quest-task">Бери гирю в руки</div>
-    <div class="quest-task">Крути ее 50 минут как хочешь</div>
-    <button class="copy-btn" onclick="copyQuest(this)">Копировать квест</button>
-</div>
-
-<div class="quest">
-    <div class="quest-title">Я не шерсть ✨</div>
-    <div class="quest-task">Побриться</div>
-    <div class="quest-task">Побрить виски</div>
-    <div class="quest-task">Сходить в душ и помыть волосы + скраб для лица</div>
-    <div class="quest-task">Бепантен на кожу</div>
-    <div class="quest-task">Увлажняющий крем</div>
-    <div class="quest-task">Подстричь ногти</div>
-    <div class="quest-task">Почистить уши</div>
-    <div class="quest-task">Побрить машинкой в носу</div>
-    <div class="quest-task">Почистить зубы перекисью и содой</div>
-    <div class="quest-task">Скребком почистить язык</div>
-    <div class="quest-task">Уберись на большом столе</div>
-    <div class="quest-task">Уберись на диване</div>
-    <div class="quest-task">Уберись на кресле</div>
-    <div class="quest-task">Уберись на лавочке</div>
-    <div class="quest-task">Уберись в шкафу</div>
-    <div class="quest-task">Уберись на маленьком столе</div>
-    <button class="copy-btn" onclick="copyQuest(this)">Копировать квест</button>
-</div>
-
-<div class="quest">
-    <div class="quest-title">Бодрое утро + пресс + я не шерсть 🌅</div>
-    <div class="quest-task">Вакуум - 10 раз</div>
-    <div class="quest-task">Планка - 3 минуты желательно</div>
-    <div class="quest-task">Приседания - 100 раз</div>
-    <div class="quest-task">Вакуум - еще 10 раз</div>
-    <div class="quest-task">Планка - 3 минуты опционально</div>
-    <div class="quest-task">Кегель - 100 раз</div>
-    <div class="quest-task">Побрейся</div>
-    <div class="quest-task">Иди в контрастный душ + скраб + увлажняйка</div>
-    <button class="copy-btn" onclick="copyQuest(this)">Копировать квест</button>
-</div>
-
-        
+    <div class="container" id="questsContainer">
+        <div class="loading">Загрузка квестов...</div>
     </div>
 
+    <!-- Подключаем файл с квестами -->
+    <script src="achievements.js"></script>
+    
     <script>
+        // Функция для отображения квестов
+        function displayQuests() {
+            const container = document.getElementById('questsContainer');
+            container.innerHTML = '';
+
+            achievementsArray.forEach(questData => {
+                // Разделяем заголовок и задачи
+                const lines = questData.split('\n');
+                const title = lines[0].trim();
+                const tasks = lines.slice(1).filter(line => line.trim() !== '');
+
+                const questElement = document.createElement('div');
+                questElement.className = 'quest';
+                
+                questElement.innerHTML = `
+                    <div class="quest-title">${title}</div>
+                    ${tasks.map(task => `<div class="quest-task">${task.trim()}</div>`).join('')}
+                    <button class="copy-btn" onclick="copyQuest(this)">Копировать квест</button>
+                `;
+                
+                container.appendChild(questElement);
+            });
+        }
+
+        // Функция копирования квеста
         function copyQuest(button) {
             const quest = button.parentElement;
             const title = quest.querySelector('.quest-title').textContent;
-            const tasks = Array.from(quest.querySelectorAll('.quest-task')).map(task => task.textContent);
+            const tasks = Array.from(quest.querySelectorAll('.quest-task'))
+                .map(task => task.textContent);
             
             const questText = `${title}\n${tasks.join('\n')}`;
             
@@ -153,6 +126,9 @@ body {
                 alert('Не удалось скопировать текст');
             });
         }
+
+        // Отображаем квесты при загрузке страницы
+        document.addEventListener('DOMContentLoaded', displayQuests);
     </script>
 </body>
 </html>
