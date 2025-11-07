@@ -246,12 +246,22 @@
             // Здесь можно добавить другие настройки в будущем
         };
 
+        // Объект для хранения полных данных квестов
+        const questsData = new Map();
+
         // Функция для отображения квестов
         function displayQuests() {
             const container = document.getElementById('questsContainer');
             container.innerHTML = '';
 
-            achievementsArray.forEach(questData => {
+            achievementsArray.forEach((questData, index) => {
+                // Сохраняем полные данные квеста
+                questsData.set(index, {
+                    title: questData.quest.split('\n')[0].trim(),
+                    tasks: questData.quest.split('\n').slice(1).filter(line => line.trim() !== '').map(task => task.trim()),
+                    impact: questData.impact
+                });
+
                 // Разделяем заголовок и задачи
                 const lines = questData.quest.split('\n');
                 const title = lines[0].trim();
@@ -262,6 +272,7 @@
 
                 const questElement = document.createElement('div');
                 questElement.className = 'quest';
+                questElement.setAttribute('data-quest-id', index);
                 
                 questElement.innerHTML = `
                     <div class="quest-title">${title}</div>
@@ -307,12 +318,13 @@
 
         // Функция копирования квеста
         function copyQuest(questElement) {
-            const title = questElement.querySelector('.quest-title').textContent;
-            const tasks = settings.hideTasks ? [] : 
-                Array.from(questElement.querySelectorAll('.quest-task'))
-                    .map(task => task.textContent);
+            const questId = questElement.getAttribute('data-quest-id');
+            const questData = questsData.get(parseInt(questId));
             
-            const questText = settings.hideTasks ? title : `${title}\n${tasks.join('\n')}`;
+            if (!questData) return;
+            
+            // Всегда копируем полный текст квеста (название + все задачи)
+            const questText = `${questData.title}\n${questData.tasks.join('\n')}`;
             
             navigator.clipboard.writeText(questText).then(() => {
                 showNotification();
