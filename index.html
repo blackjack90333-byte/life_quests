@@ -22,6 +22,73 @@
             min-height: 100vh;
         }
 
+        /* Стили для панели настроек */
+        .settings-panel {
+            background: rgb(255,255,255,0.7);
+            padding: 12px 15px;
+            border-bottom: 2px solid var(--color-accent);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .settings-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .settings-title {
+            font-weight: 600;
+            color: var(--color-primary);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .settings-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .setting-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--color-primary);
+            border-radius: 3px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .setting-checkbox.checked {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        .setting-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .setting-label {
+            font-size: 13px;
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -62,6 +129,14 @@
             margin-bottom: 8px;
             color: var(--color-primary);
             line-height: 1.3;
+        }
+
+        .quest-tasks {
+            transition: all 0.3s ease;
+        }
+
+        .quest-tasks.hidden {
+            display: none;
         }
 
         .quest-task {
@@ -140,6 +215,20 @@
     </style>
 </head>
 <body>
+    <!-- Панель настроек -->
+    <div class="settings-panel">
+        <div class="settings-content">
+            <div class="settings-title">Настройки отображения:</div>
+            <div class="settings-options">
+                <div class="setting-item" id="hideTasksSetting">
+                    <div class="setting-checkbox" id="hideTasksCheckbox"></div>
+                    <span class="setting-label">Скрыть описание задач</span>
+                </div>
+                <!-- Здесь можно добавить другие настройки -->
+            </div>
+        </div>
+    </div>
+
     <div class="container" id="questsContainer">
         <div class="loading">Загрузка квестов...</div>
     </div>
@@ -151,6 +240,12 @@
     <script src="quests.js"></script>
     
     <script>
+        // Объект для хранения настроек
+        const settings = {
+            hideTasks: false
+            // Здесь можно добавить другие настройки в будущем
+        };
+
         // Функция для отображения квестов
         function displayQuests() {
             const container = document.getElementById('questsContainer');
@@ -170,7 +265,9 @@
                 
                 questElement.innerHTML = `
                     <div class="quest-title">${title}</div>
-                    ${tasks.map(task => `<div class="quest-task">${task.trim()}</div>`).join('')}
+                    <div class="quest-tasks ${settings.hideTasks ? 'hidden' : ''}">
+                        ${tasks.map(task => `<div class="quest-task">${task.trim()}</div>`).join('')}
+                    </div>
                     <div class="impact-section">
                         <div class="impact-title">Импакт для меня:</div>
                         ${impactLines.map(impact => `<div class="impact-item">${impact.trim()}</div>`).join('')}
@@ -183,6 +280,18 @@
                 });
                 
                 container.appendChild(questElement);
+            });
+        }
+
+        // Функция применения настроек
+        function applySettings() {
+            const taskContainers = document.querySelectorAll('.quest-tasks');
+            taskContainers.forEach(container => {
+                if (settings.hideTasks) {
+                    container.classList.add('hidden');
+                } else {
+                    container.classList.remove('hidden');
+                }
             });
         }
 
@@ -199,10 +308,11 @@
         // Функция копирования квеста
         function copyQuest(questElement) {
             const title = questElement.querySelector('.quest-title').textContent;
-            const tasks = Array.from(questElement.querySelectorAll('.quest-task'))
-                .map(task => task.textContent);
+            const tasks = settings.hideTasks ? [] : 
+                Array.from(questElement.querySelectorAll('.quest-task'))
+                    .map(task => task.textContent);
             
-            const questText = `${title}\n${tasks.join('\n')}`;
+            const questText = settings.hideTasks ? title : `${title}\n${tasks.join('\n')}`;
             
             navigator.clipboard.writeText(questText).then(() => {
                 showNotification();
@@ -212,8 +322,45 @@
             });
         }
 
-        // Отображаем квесты при загрузке страницы
-        document.addEventListener('DOMContentLoaded', displayQuests);
+        // Инициализация настроек
+        function initSettings() {
+            const hideTasksCheckbox = document.getElementById('hideTasksCheckbox');
+            const hideTasksSetting = document.getElementById('hideTasksSetting');
+
+            // Загрузка сохраненных настроек из localStorage
+            const savedSettings = localStorage.getItem('questSettings');
+            if (savedSettings) {
+                Object.assign(settings, JSON.parse(savedSettings));
+            }
+
+            // Установка начального состояния чекбокса
+            if (settings.hideTasks) {
+                hideTasksCheckbox.classList.add('checked');
+            }
+
+            // Обработчик клика по настройке
+            hideTasksSetting.addEventListener('click', function() {
+                settings.hideTasks = !settings.hideTasks;
+                
+                if (settings.hideTasks) {
+                    hideTasksCheckbox.classList.add('checked');
+                } else {
+                    hideTasksCheckbox.classList.remove('checked');
+                }
+
+                // Сохраняем настройки
+                localStorage.setItem('questSettings', JSON.stringify(settings));
+                
+                // Применяем настройки
+                applySettings();
+            });
+        }
+
+        // Отображаем квесты и инициализируем настройки при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            displayQuests();
+            initSettings();
+        });
     </script>
 </body>
 </html>
