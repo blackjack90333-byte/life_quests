@@ -386,11 +386,7 @@
             const hideTasksCheckbox = document.getElementById('hideTasksCheckbox');
             const hideTasksSetting = document.getElementById('hideTasksSetting');
 
-            // Загрузка сохраненных настроек из localStorage
-            const savedSettings = localStorage.getItem('questSettings');
-            if (savedSettings) {
-                Object.assign(settings, JSON.parse(savedSettings));
-            }
+            
 
             // Установка начального состояния чекбокса
             if (settings.hideTasks) {
@@ -407,8 +403,7 @@
                     hideTasksCheckbox.classList.remove('checked');
                 }
 
-                // Сохраняем настройки
-                localStorage.setItem('questSettings', JSON.stringify(settings));
+                
                 
                 // Применяем настройки
                 applySettings();
