@@ -107,6 +107,7 @@ const achievementsArray = [
 шея валиком АТЛАНТ
 спина валиком
 упражнения АРТЕМ ПАК https://docs.google.com/document/d/e/2PACX-1vQefdK2PoCpNur-qDrxMdkDcbiv5mhnq_7RtQvBrYm4bWmbhezsAFS5wQb-5chc7D-1g-F2WyJwvw48/pub
+упражнения Антон Алекссев https://docs.google.com/document/d/e/2PACX-1vRa5woPQO4PvMie8ALWzZXKxmLUP0UOoa15tT2S5aVc4NADyktNairvi6qmqH8ot6ixkSbT1SyHjWtd/pub
 массаж лица https://youtu.be/D7hrJ06O7Pg?si=OSfwmrwoEwopvgNL`,
     impact: `+ молодое тело без зажимов
 + здоровые органы`
